@@ -2,13 +2,15 @@ import React from 'react';
 
 class Row extends React.Component {
   render() {
+    const { user } = this.props;
+
     return (
       <tr className="mdc-data-table__row">
-        <td className="mdc-data-table__cell mdc-data-table__cell--numeric">101</td>
-        <td className="mdc-data-table__cell">Sue</td>
-        <td className="mdc-data-table__cell">Corson</td>
-        <td className="mdc-data-table__cell">DWhalley@in.gov</td>
-        <td className="mdc-data-table__cell mdc-data-table__cell--numeric">(612)211-6296</td>
+        <td className="mdc-data-table__cell mdc-data-table__cell--numeric">{user.id}</td>
+        <td className="mdc-data-table__cell">{user.firstName}</td>
+        <td className="mdc-data-table__cell">{user.lastName}</td>
+        <td className="mdc-data-table__cell">{user.email}</td>
+        <td className="mdc-data-table__cell mdc-data-table__cell--numeric">{user.phone}</td>
       </tr>
     );
   }

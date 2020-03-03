@@ -46,3 +46,13 @@
 .mdc-data-table__header-row {
   text-transform: uppercase;
 }
+
+.mdc-form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.mdc-text-field {
+  margin-top: 5px;
+}
