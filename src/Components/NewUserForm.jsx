@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import uniqueId from 'lodash.uniqueid';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
+  // console.log('new user form -> state', state)
+  const { users: { allIds }, formsUIState } = state;
   const fields = [
     'id',
     'first name',
@@ -12,7 +14,11 @@ const mapStateToProps = (state) => {
     'email',
     'phone',
   ];
-  return { fields };
+  return {
+    allIds,
+    fields,
+    formsUIState,
+  };
 };
 
 const actionCreators = {
@@ -21,13 +27,29 @@ const actionCreators = {
 
 class NewUserForm extends React.Component {
   submit = (values) => {
-    const { addUser, reset } = this.props;
-    addUser({ user: { ...values } });
+    const { allIds, addUser, reset } = this.props;
+    
+    if (allIds.includes(values.id)) {
+      throw new SubmissionError ({
+        firstName: 'ID уже существует',
+      });
+    } else {
+      addUser({ user: { ...values } });
+    }
     reset();
+  //   try {
+  //     await addTask({ task: values });
+  //   } catch (e) {
+  //     throw new SubmissionError({ _error: e.message });
+  //   }
   }
 
   render() {
-    const { handleSubmit, fields } = this.props;
+    const { formsUIState, handleSubmit, fields } = this.props;
+
+    if (formsUIState === 'none') {
+      return null;
+    };
 
     return (
       <form onSubmit={handleSubmit(this.submit)} className="mdc-form-field">
@@ -59,7 +81,7 @@ class NewUserForm extends React.Component {
               id="first-name"
               component="input"
               type="text"
-              required
+              
             />
             <div className="mdc-notched-outline">
               <div className="mdc-notched-outline__leading"></div>
@@ -76,7 +98,7 @@ class NewUserForm extends React.Component {
               id="last-name"
               component="input"
               type="text"
-              required
+              
             />
             <div className="mdc-notched-outline">
               <div className="mdc-notched-outline__leading"></div>
@@ -94,7 +116,7 @@ class NewUserForm extends React.Component {
               id="email"
               component="input"
               type="email"
-              required
+              
             />
             <div className="mdc-notched-outline">
               <div className="mdc-notched-outline__leading"></div>
@@ -112,7 +134,7 @@ class NewUserForm extends React.Component {
               id="phone"
               component="input"
               type="tel"
-              required
+              
             />
             <div className="mdc-notched-outline">
               <div className="mdc-notched-outline__leading"></div>

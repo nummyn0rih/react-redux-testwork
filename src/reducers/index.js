@@ -11,9 +11,38 @@ const users = handleActions({
       allIds: [user.id, ...allIds],
     };
   },
+  [actions.fetchUsersSuccess](state, { payload }) {
+    const { byId, allIds } = state;
+    const users = payload.reduce((acc, user) => ({ ...acc, [user.id]: user }), {});
+    const ids = payload.map((user) => user.id);
+    return {
+      byId: { ...byId, ...users },
+      allIds: [...allIds, ...ids],
+    };
+  }
 }, { byId: {}, allIds: [] });
+
+const usersFetchingState = handleActions({
+  [actions.fetchUsersRequest]() {
+    return 'requested';
+  },
+  [actions.fetchUsersFailure]() {
+    return 'failed';
+  },
+  [actions.fetchUsersSuccess]() {
+    return 'finished';
+  },
+}, 'none');
+
+const formsUIState = handleActions({
+  [actions.showNewUserForm](state, payload) {
+    return payload;
+  }
+}, 'none');
 
 export default combineReducers({
   users,
+  usersFetchingState,
+  formsUIState,
   form: formReduser,
 });

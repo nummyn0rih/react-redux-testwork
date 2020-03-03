@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, compose } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import reducers from './reducers';
 import App from './components/App';
 import './index.css';
@@ -15,6 +16,7 @@ const devtoolMiddleware = ext && ext();
 const store = createStore(
   reducers,
   compose(
+    applyMiddleware(thunk),
     devtoolMiddleware,
   ),
 );

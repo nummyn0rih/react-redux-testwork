@@ -1,22 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Row from './Row';
-import * as actions from '../actions';
-
 
 const mapStateToProps = (state) => {
   const { users: { byId, allIds } } = state;
-  const users = allIds.map((id) => byId[id]);
+    console.log('mapStateToProps  byId ->', byId)
+    console.log('mapStateToProps  allIds ->', allIds)
+    const users = allIds.map((id) => {
+      const usr = byId[id];
+      console.log(usr);
+      return usr;
+    });
+  console.log('mapStateToProps  users ->', users)
   return { users };
-};
-
-const actionCreators = {
-  
 };
 
 class Table extends React.Component {
   render() {
     const { users } = this.props;
+    console.log('Table ->', users)
 
     return (
       <div className="mdc-data-table">
@@ -39,4 +41,4 @@ class Table extends React.Component {
   }
 };
 
-export default connect(mapStateToProps, actionCreators)(Table);
+export default connect(mapStateToProps)(Table);
