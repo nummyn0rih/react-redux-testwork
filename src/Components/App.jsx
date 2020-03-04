@@ -1,11 +1,14 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Button from './Button';
+import NewUserForm from './NewUserForm';
 import Table from './Table';
 import * as actions from '../actions';
 import '../App.css';
 
-const mapStateToProps = (state) => state;
+const mapStateToProps = ({ uiState: { addUserBtn, newUserForm } }) => {
+  return { addUserBtn, newUserForm };
+};
 
 const actionCreators = {
   fetchUsers: actions.fetchUsers,
@@ -24,6 +27,7 @@ class App extends React.Component {
   }
   
   render() {
+    const { addUserBtn, newUserForm } = this.props;
 
     return (
       <Fragment>
@@ -31,7 +35,8 @@ class App extends React.Component {
           <Button handleOnClick={this.handleFetchUsers} text="Fetch data (little)" raised={true} />
           <Button text="Fetch data (much)" raised={true} />
         </div>
-        <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />
+        {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
+        {newUserForm === 'show' && <NewUserForm />}
         <Table />
       </Fragment>
     );

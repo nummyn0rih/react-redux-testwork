@@ -1,11 +1,5 @@
-import React, { Fragment } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
 import cn from 'classnames';
-import NewUserForm from './NewUserForm';
-
-const mapStateToProps = (state) => {
-  return { state };
-};
 
 class Button extends React.Component {
   render() {
@@ -14,18 +8,15 @@ class Button extends React.Component {
       'mdc-button': true,
       'mdc-button--raised': raised,
       'mdc-button--outlined': outlined,
-    })
+    });
 
     return (
-      <Fragment>
-        <button onClick={handleOnClick} className={btnCn}>
-          <div className="mdc-button__ripple"></div>
-          <span className="mdc-button__label">{text}</span>
-        </button>
-        {text === 'Add user' && <NewUserForm />}
-      </Fragment>
+      <button onClick={handleOnClick} className={btnCn}>
+        <div className="mdc-button__ripple"></div>
+        <span className="mdc-button__label">{text}</span>
+      </button>
     );
   }
 };
 
-export default connect(mapStateToProps)(Button);
+export default Button;

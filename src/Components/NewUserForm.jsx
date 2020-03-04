@@ -6,7 +6,7 @@ import Button from './Button';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  const { users: { allIds }, formsUIState } = state;
+  const { users: { allIds }, uiState: { newUserForm } } = state;
   const fields = [
     'id',
     'first name',
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
   return {
     allIds,
     fields,
-    formsUIState,
+    newUserForm,
   };
 };
 
@@ -46,9 +46,9 @@ class NewUserForm extends React.Component {
   }
 
   render() {
-    const { formsUIState, handleSubmit, fields } = this.props;
+    const { newUserForm, handleSubmit, fields } = this.props;
 
-    if (formsUIState === 'hide') {
+    if (newUserForm === 'hide') {
       return null;
     };
 

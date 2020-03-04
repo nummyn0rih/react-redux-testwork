@@ -4,21 +4,16 @@ import Row from './Row';
 
 const mapStateToProps = (state) => {
   const { users: { byId, allIds } } = state;
-    console.log('mapStateToProps  byId ->', byId)
-    console.log('mapStateToProps  allIds ->', allIds)
     const users = allIds.map((id) => {
       const usr = byId[id];
-      console.log(usr);
       return usr;
     });
-  console.log('mapStateToProps  users ->', users)
   return { users };
 };
 
 class Table extends React.Component {
   render() {
     const { users } = this.props;
-    console.log('Table ->', users)
 
     return (
       <div className="mdc-data-table">

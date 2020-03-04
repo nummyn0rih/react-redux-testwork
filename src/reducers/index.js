@@ -34,21 +34,21 @@ const usersFetchingState = handleActions({
   },
 }, 'none');
 
-const formsUIState = handleActions({
-  [actions.showNewUserForm]() {
-    return 'show';
+const uiState = handleActions({
+  [actions.showNewUserForm](state) {
+    return { ...state, newUserForm: 'show', addUserBtn: 'hide' };
   },
-  [actions.hideNewUserForm]() {
-    return 'hide';
+  [actions.hideNewUserForm](state) {
+    return { ...state, newUserForm: 'hide', addUserBtn: 'show' };
   },
-  [actions.addUser]() {
-    return 'hide';
+  [actions.addUser](state) {
+    return { ...state, newUserForm: 'hide', addUserBtn: 'show' };
   },
-}, 'hide');
+}, { newUserForm: 'hide', addUserBtn: 'show' });
 
 export default combineReducers({
   users,
   usersFetchingState,
-  formsUIState,
+  uiState,
   form: formReduser,
 });
