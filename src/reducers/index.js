@@ -19,8 +19,12 @@ const users = handleActions({
       byId: { ...byId, ...users },
       allIds: [...allIds, ...ids],
     };
-  }
-}, { byId: {}, allIds: [] });
+  },
+  [actions.showUserCard](state, { payload: { id } }) {
+    const { byId } = state;
+    return { ...state, activeUserCard: byId[id] };
+  },
+}, { byId: {}, allIds: [], activeUserCard: null });
 
 const usersFetchingState = handleActions({
   [actions.fetchUsersRequest]() {

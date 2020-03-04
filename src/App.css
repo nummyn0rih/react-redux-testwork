@@ -62,3 +62,8 @@
 .mdc-button {
   margin: 5px;
 }
+
+.mdc-card{
+  margin-top: 15px;
+  padding: 20px;
+}

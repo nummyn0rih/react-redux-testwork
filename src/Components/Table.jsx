@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Row from './Row';
+import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
   const { users: { byId, allIds } } = state;
@@ -11,7 +12,16 @@ const mapStateToProps = (state) => {
   return { users };
 };
 
+const actionCreators = {
+  showUserCard: actions.showUserCard,
+};
+
 class Table extends React.Component {
+  handleShowUserCard = (id) => () => {
+    const { showUserCard } = this.props;
+    showUserCard({ id });
+  }
+
   render() {
     const { users } = this.props;
 
@@ -28,7 +38,7 @@ class Table extends React.Component {
             </tr>
           </thead>
           <tbody className="mdc-data-table__content">
-            {users.length > 0 && users.map((user) => <Row user={user} key={user.id} />)}
+            {users.length > 0 && users.map((user) => <Row user={user} onclick={this.handleShowUserCard} key={user.id} />)}
           </tbody>
         </table>
       </div>
@@ -36,4 +46,4 @@ class Table extends React.Component {
   }
 };
 
-export default connect(mapStateToProps)(Table);
+export default connect(mapStateToProps, actionCreators)(Table);

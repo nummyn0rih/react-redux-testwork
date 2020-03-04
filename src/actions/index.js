@@ -24,3 +24,5 @@ export const showNewUserForm = createAction('NEW_USER_FORM_SHOW');
 export const hideNewUserForm = createAction('NEW_USER_FORM_HIDE');
 
 export const hideAddUserBtn = createAction('USER_ADD_BUTTON_HIDE');
+
+export const showUserCard = createAction('USER_CARD_SHOW');

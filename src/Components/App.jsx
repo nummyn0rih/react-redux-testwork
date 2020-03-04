@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 import Button from './Button';
 import NewUserForm from './NewUserForm';
 import Table from './Table';
+import UserCard from './UserCard';
 import * as actions from '../actions';
 import '../App.css';
 
-const mapStateToProps = ({ uiState: { addUserBtn, newUserForm } }) => {
-  return { addUserBtn, newUserForm };
+const mapStateToProps = (state) => {
+  const {
+    uiState: { addUserBtn, newUserForm },
+    users: { activeUserCard },
+  } = state;
+  return { addUserBtn, newUserForm, activeUserCard };
 };
 
 const actionCreators = {
@@ -27,7 +32,7 @@ class App extends React.Component {
   }
   
   render() {
-    const { addUserBtn, newUserForm } = this.props;
+    const { addUserBtn, newUserForm, activeUserCard } = this.props;
 
     return (
       <Fragment>
@@ -38,6 +43,7 @@ class App extends React.Component {
         {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
         {newUserForm === 'show' && <NewUserForm />}
         <Table />
+        {activeUserCard && <UserCard user={activeUserCard} />}
       </Fragment>
     );
   }
