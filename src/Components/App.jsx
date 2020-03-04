@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Button from './Button';
 import Table from './Table';
@@ -20,18 +20,20 @@ class App extends React.Component {
 
   handleShowNewUserForm = () => {
     const { showNewUserForm } = this.props;
-    showNewUserForm('show');
+    showNewUserForm();
   }
   
   render() {
 
     return (
-      <>
-        <Button handleOnClick={this.handleFetchUsers} text="Fetch data (little)" />
-        <Button text="Fetch data (much)" />
-        <Button handleOnClick={this.handleShowNewUserForm} text="Add user" />
+      <Fragment>
+        <div className="wrapper__fetch">
+          <Button handleOnClick={this.handleFetchUsers} text="Fetch data (little)" raised={true} />
+          <Button text="Fetch data (much)" raised={true} />
+        </div>
+        <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />
         <Table />
-      </>
+      </Fragment>
     );
   }
 };

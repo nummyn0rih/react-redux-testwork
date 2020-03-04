@@ -21,3 +21,4 @@ export const fetchUsers = () => async (dispatch) => {
 };
 
 export const showNewUserForm = createAction('NEW_USER_FORM_SHOW');
+export const hideNewUserForm = createAction('NEW_USER_FORM_HIDE');

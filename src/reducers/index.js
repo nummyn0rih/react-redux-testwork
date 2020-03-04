@@ -35,10 +35,16 @@ const usersFetchingState = handleActions({
 }, 'none');
 
 const formsUIState = handleActions({
-  [actions.showNewUserForm](state, payload) {
-    return payload;
-  }
-}, 'none');
+  [actions.showNewUserForm]() {
+    return 'show';
+  },
+  [actions.hideNewUserForm]() {
+    return 'hide';
+  },
+  [actions.addUser]() {
+    return 'hide';
+  },
+}, 'hide');
 
 export default combineReducers({
   users,

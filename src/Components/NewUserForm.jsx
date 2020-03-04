@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import uniqueId from 'lodash.uniqueid';
+import Button from './Button';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  // console.log('new user form -> state', state)
   const { users: { allIds }, formsUIState } = state;
   const fields = [
     'id',
@@ -23,6 +23,7 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   addUser: actions.addUser,
+  hideNewUserForm: actions.hideNewUserForm,
 };
 
 class NewUserForm extends React.Component {
@@ -31,28 +32,29 @@ class NewUserForm extends React.Component {
     
     if (allIds.includes(values.id)) {
       throw new SubmissionError ({
-        firstName: 'ID уже существует',
+        id: '',
       });
     } else {
       addUser({ user: { ...values } });
     }
     reset();
-  //   try {
-  //     await addTask({ task: values });
-  //   } catch (e) {
-  //     throw new SubmissionError({ _error: e.message });
-  //   }
+  }
+
+  handleHideNewUserForm = () => {
+    const { hideNewUserForm } = this.props;
+    hideNewUserForm();
   }
 
   render() {
     const { formsUIState, handleSubmit, fields } = this.props;
 
-    if (formsUIState === 'none') {
+    if (formsUIState === 'hide') {
       return null;
     };
 
     return (
       <form onSubmit={handleSubmit(this.submit)} className="mdc-form-field">
+        <Button handleOnClick={this.handleHideNewUserForm} text="Close" />
 
         <div className="">
           <label className="" htmlFor="id">ID</label>
@@ -144,7 +146,7 @@ class NewUserForm extends React.Component {
           </div>
         </div>
 
-        <button>Add</button>
+        <Button text="Add" outlined={true} />
       </form>
     );
   }
@@ -154,26 +156,3 @@ const ConnectedNewUserForm = connect(mapStateToProps, actionCreators)(NewUserFor
 export default reduxForm({
   form: 'newUser',
 })(ConnectedNewUserForm);
-
-// {fields.map((i) => {
-//   const id = uniqueId();
-//   return (
-//     <label className="mdc-text-field mdc-text-field--outlined" key={id}>
-//       <Field
-//         name={i}
-//         className="mdc-text-field__input"
-//         component="input"
-//         type="text"
-//         required
-//         aria-labelledby="my-label-id"
-//       />
-//       <div className="mdc-notched-outline">
-//         <div className="mdc-notched-outline__leading"></div>
-//         <div className="mdc-notched-outline__notch">
-//           <span className="mdc-floating-label" id={`my-label-${id}`}></span>
-//         </div>
-//         <div className="mdc-notched-outline__trailing"></div>
-//       </div>
-//     </label>
-//   )
-// })}
