@@ -24,6 +24,9 @@ const users = handleActions({
     const { byId } = state;
     return { ...state, activeUserCard: byId[id] };
   },
+  [actions.deleteUsers]() {
+    return { byId: {}, allIds: [], activeUserCard: null };
+  },
 }, { byId: {}, allIds: [], activeUserCard: null });
 
 const usersFetchingState = handleActions({

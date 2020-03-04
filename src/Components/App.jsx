@@ -18,6 +18,7 @@ const mapStateToProps = (state) => {
 const actionCreators = {
   fetchUsers: actions.fetchUsers,
   showNewUserForm: actions.showNewUserForm,
+  deleteUsers: actions.deleteUsers,
 };
 
 class App extends React.Component {
@@ -30,6 +31,11 @@ class App extends React.Component {
     const { showNewUserForm } = this.props;
     showNewUserForm();
   }
+
+  handleClear = () => {
+    const { deleteUsers } = this.props;
+    deleteUsers();
+  }
   
   render() {
     const { addUserBtn, newUserForm, activeUserCard } = this.props;
@@ -39,6 +45,7 @@ class App extends React.Component {
         <div className="wrapper__fetch">
           <Button handleOnClick={this.handleFetchUsers} text="Fetch data (little)" raised={true} />
           <Button text="Fetch data (much)" raised={true} />
+          <Button handleOnClick={this.handleClear} text="Clear" raised={true} />
         </div>
         {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
         {newUserForm === 'show' && <NewUserForm />}

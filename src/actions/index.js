@@ -2,6 +2,7 @@ import axios from 'axios';
 import { createAction } from "redux-actions";
 
 export const addUser = createAction('USER_ADD');
+export const deleteUsers = createAction('USERS_DELETE');
 
 export const fetchUsersRequest = createAction('USERS_FETCH_REQUEST');
 export const fetchUsersSuccess = createAction('USERS_FETCH_SUCCESS');
