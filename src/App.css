@@ -42,6 +42,11 @@
   flex-direction: column;
   align-items: flex-start;
   padding: 15px;
+  width: 800px;
+}
+
+.mdc-data-table {
+  width: 100%;
 }
 
 .mdc-data-table__header-row {
@@ -57,6 +62,11 @@
 .mdc-text-field {
   margin-top: 5px;
   margin-left: 10px;
+  height: 42px;
+}
+
+.form__filter {
+  align-self: flex-end;
 }
 
 .mdc-button {
@@ -66,4 +76,8 @@
 .mdc-card{
   margin-top: 15px;
   padding: 20px;
+}
+
+.material-icons {
+  vertical-align: bottom;
 }

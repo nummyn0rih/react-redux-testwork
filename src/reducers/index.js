@@ -27,6 +27,29 @@ const users = handleActions({
   [actions.deleteUsers]() {
     return { byId: {}, allIds: [], activeUserCard: null };
   },
+  [actions.sortUsers](state, { payload: { type, order } }) {
+    const { byId, allIds } = state;
+    switch (order) {
+      case 'asc': {
+        const sortedIds = [...allIds].sort((a, b) => {
+          if (byId[a][type] > byId[b][type]) return 1;
+          if (byId[a][type] < byId[b][type]) return -1;
+          return 0;
+        });
+        return { ...state, allIds: sortedIds };
+      }
+      case 'desc': {
+        const sortedIds = [...allIds].sort((a, b) => {
+          if (byId[a][type] < byId[b][type]) return 1;
+          if (byId[a][type] > byId[b][type]) return -1;
+          return 0;
+        });
+        return { ...state, allIds: sortedIds };
+      }
+      default:
+        return state;
+    }
+  }
 }, { byId: {}, allIds: [], activeUserCard: null });
 
 const usersFetchingState = handleActions({
@@ -51,7 +74,23 @@ const uiState = handleActions({
   [actions.addUser](state) {
     return { ...state, newUserForm: 'hide', addUserBtn: 'show' };
   },
-}, { newUserForm: 'hide', addUserBtn: 'show' });
+  [actions.sortUsers](state, { payload: { type } }) {
+    const { orderBy } = state;
+    const newOrderBy = { ...orderBy, [type]: orderBy[type] === 'asc' ? 'desc' : 'asc' };
+    return { ...state, orderBy: { ...newOrderBy }, activeOrder: type };
+  },
+}, {
+  newUserForm: 'hide',
+  addUserBtn: 'show',
+  orderBy: {
+    id: 'asc',
+    firstName: 'asc',
+    lastName: 'asc',
+    email: 'asc',
+    phone: 'asc',
+  },
+  activeOrder: 'none',
+});
 
 export default combineReducers({
   users,

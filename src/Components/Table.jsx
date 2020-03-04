@@ -4,22 +4,41 @@ import Row from './Row';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  const { users: { byId, allIds } } = state;
-    const users = allIds.map((id) => {
-      const usr = byId[id];
-      return usr;
-    });
-  return { users };
+  const { users: { byId, allIds }, uiState: { orderBy, activeOrder } } = state;
+  const users = allIds.map((id) => {
+    const usr = byId[id];
+    return usr;
+  });
+  return { users, orderBy, activeOrder };
 };
 
 const actionCreators = {
   showUserCard: actions.showUserCard,
+  sortUsers: actions.sortUsers,
 };
 
 class Table extends React.Component {
   handleShowUserCard = (id) => () => {
     const { showUserCard } = this.props;
     showUserCard({ id });
+  }
+
+  handleSort = (type) => () => {
+    const { sortUsers, orderBy } = this.props;
+    const order = orderBy[type];
+    sortUsers({ type, order });
+  }
+
+  renderTh = () => {
+    const { activeOrder, orderBy } = this.props;
+    const types = Object.keys(orderBy);
+    return types.map((type) => (
+      <th onClick={this.handleSort(type)} className="mdc-data-table__header-cell" key={type} role="columnheader" scope="col">
+        {type}
+        {activeOrder === type && orderBy[type] === 'asc' && <i className="material-icons">keyboard_arrow_down</i>}
+        {activeOrder === type && orderBy[type] === 'desc' && <i className="material-icons">keyboard_arrow_up</i>}
+      </th>
+    ));
   }
 
   render() {
@@ -30,11 +49,7 @@ class Table extends React.Component {
         <table className="mdc-data-table__table" aria-label="Data table">
           <thead>
             <tr className="mdc-data-table__header-row">
-              <th className="mdc-data-table__header-cell" role="columnheader" scope="col">Id</th>
-              <th className="mdc-data-table__header-cell" role="columnheader" scope="col">First name</th>
-              <th className="mdc-data-table__header-cell" role="columnheader" scope="col">Last name</th>
-              <th className="mdc-data-table__header-cell" role="columnheader" scope="col">Email</th>
-              <th className="mdc-data-table__header-cell" role="columnheader" scope="col">Phone</th>
+              {this.renderTh()}
             </tr>
           </thead>
           <tbody className="mdc-data-table__content">

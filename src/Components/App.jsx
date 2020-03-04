@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import Button from './Button';
 import NewUserForm from './NewUserForm';
+import FilterForm from './FilterForm';
 import Table from './Table';
 import UserCard from './UserCard';
 import * as actions from '../actions';
@@ -42,13 +43,14 @@ class App extends React.Component {
 
     return (
       <Fragment>
-        <div className="wrapper__fetch">
+        <div className="wrapper">
           <Button handleOnClick={this.handleFetchUsers} text="Fetch data (little)" raised={true} />
           <Button text="Fetch data (much)" raised={true} />
           <Button handleOnClick={this.handleClear} text="Clear" raised={true} />
+          {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
         </div>
-        {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
         {newUserForm === 'show' && <NewUserForm />}
+        <FilterForm />
         <Table />
         {activeUserCard && <UserCard user={activeUserCard} />}
       </Fragment>
