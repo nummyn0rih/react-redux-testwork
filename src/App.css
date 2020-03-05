@@ -73,6 +73,12 @@
   margin: 5px;
 }
 
+.wrapper__new-user-form_btn {
+  display: flex;
+  justify-content: space-between;
+  width: 214px;
+}
+
 .mdc-card{
   margin-top: 15px;
   padding: 20px;
@@ -80,4 +86,9 @@
 
 .material-icons {
   vertical-align: bottom;
+}
+
+.pagination {
+  display: flex;
+  align-self: flex-end;
 }

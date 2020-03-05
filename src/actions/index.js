@@ -28,3 +28,6 @@ export const hideNewUserForm = createAction('NEW_USER_FORM_HIDE');
 export const hideAddUserBtn = createAction('USER_ADD_BUTTON_HIDE');
 
 export const showUserCard = createAction('USER_CARD_SHOW');
+
+export const initPagination = createAction('PAGINATION_INITIAL');
+export const changePage = createAction('PAGE_CHANGE');

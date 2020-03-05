@@ -54,7 +54,6 @@ class NewUserForm extends React.Component {
 
     return (
       <form onSubmit={handleSubmit(this.submit)} className="mdc-form-field">
-        <Button handleOnClick={this.handleHideNewUserForm} text="Close" />
 
         <div className="">
           <label className="" htmlFor="id">ID</label>
@@ -146,7 +145,10 @@ class NewUserForm extends React.Component {
           </div>
         </div>
 
-        <Button text="Add" outlined={true} />
+        <div className="wrapper__new-user-form_btn">
+          <Button handleOnClick={this.handleHideNewUserForm} text="Close" />
+          <Button text="Add" />
+        </div>
       </form>
     );
   }

@@ -1,15 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Row from './Row';
+import Pagination from './Pagination';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  const { users: { byId, allIds }, uiState: { orderBy, activeOrder } } = state;
-  const users = allIds.map((id) => {
-    const usr = byId[id];
-    return usr;
+  const {
+    users: { byId },
+    pagination: { allIds, pageLimit, currentPage },
+    uiState: { orderBy, activeOrder },
+  } = state;
+  const firstRecordToShow = (currentPage * pageLimit - 10);
+  const recordsToShow = allIds.slice(firstRecordToShow, firstRecordToShow + pageLimit);
+  const users = recordsToShow.map((id) => {
+    const user = byId[id];
+    return user;
   });
-  return { users, orderBy, activeOrder };
+
+  return { users, byId, orderBy, activeOrder };
 };
 
 const actionCreators = {
@@ -24,9 +32,9 @@ class Table extends React.Component {
   }
 
   handleSort = (type) => () => {
-    const { sortUsers, orderBy } = this.props;
+    const { sortUsers, orderBy, byId } = this.props;
     const order = orderBy[type];
-    sortUsers({ type, order });
+    sortUsers({ type, order, byId });
   }
 
   renderTh = () => {
@@ -56,6 +64,7 @@ class Table extends React.Component {
             {users.length > 0 && users.map((user) => <Row user={user} onclick={this.handleShowUserCard} key={user.id} />)}
           </tbody>
         </table>
+        <Pagination />
       </div>
     );
   }
