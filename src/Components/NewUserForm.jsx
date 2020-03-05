@@ -44,9 +44,21 @@ class NewUserForm extends React.Component {
     hideNewUserForm();
   }
 
+  fieldType = (fieldName) => {
+    switch (fieldName) {
+      case 'id':
+        return 'number';
+      case 'email':
+        return 'email';
+      case 'phone':
+        return 'phine';
+      default:
+        return 'text';
+    }
+  }
+
   renderFields = () => {
     const { fields } = this.props;
-
     return fields.map((fieldName) => (
       <div className="mdc-text-field__wrapper" key={fieldName}>
         <label className="mdc-floating-label" htmlFor={fieldName}>{fieldName}</label>
@@ -56,7 +68,7 @@ class NewUserForm extends React.Component {
             name={fieldName}
             id={fieldName}
             component="input"
-            type={fieldName === "id" || "phone" ? "number" : "text"}  
+            type={this.fieldType(fieldName)}
             required
           />
           <div className="mdc-notched-outline">

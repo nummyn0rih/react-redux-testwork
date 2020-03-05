@@ -37,6 +37,20 @@ const pagination = handleActions({
       throw new Error(`Unknown order state: '${order}'!`);
     }
   },
+  [actions.filterUsers](state, { payload: { filter, byId } }) {
+    const { allIds, pageLimit } = state;
+    const filtredUsers = allIds.filter((id) => {
+      const values = Object.values(byId[id]).map((i) => i.toString());
+      for (const value of values) {
+        if (value.includes(filter)) {
+          return true;
+        }
+      }
+      return false;
+    });
+    const totalPages = Math.ceil(filtredUsers.length / pageLimit);
+    return { ...state, allIds: filtredUsers, totalPages };
+  },
   [actions.deleteUsers]() {
     return { allIds: [], pageLimit: 10, totalPages: 1, currentPage: 1, };
   },

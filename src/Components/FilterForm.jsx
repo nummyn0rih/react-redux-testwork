@@ -5,18 +5,26 @@ import Button from './Button';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  return state;
+  const { users: { byId } } = state;
+  return { byId };
 };
 
 const actionCreators = {
-
+  filterUsers: actions.filterUsers,
 };
 
-
 class FilterForm extends React.Component {
+  handleFilterUsers = ({ filter }) => {
+    const { filterUsers, byId, reset } = this.props;
+    filterUsers({ filter, byId });
+    reset();
+  }
+
   render() {
+    const { handleSubmit } = this.props;
+
     return (
-      <form className="form__filter">
+      <form onSubmit={handleSubmit(this.handleFilterUsers)} className="form__filter">
         <div className="mdc-text-field mdc-text-field--outlined">
           <Field
             className="mdc-text-field__input"
