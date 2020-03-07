@@ -31,7 +31,6 @@ class FilterForm extends React.Component {
             name="filter"
             component="input"
             type="text"
-            required
           />
           <div className="mdc-notched-outline">
             <div className="mdc-notched-outline__leading"></div>

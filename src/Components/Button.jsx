@@ -1,9 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import Spinner from './Spinner';
 import cn from 'classnames';
+
+const mapStateToProps = (state) => {
+  const { usersFetchingState } = state;
+  return { usersFetchingState };
+};
 
 class Button extends React.Component {
   render() {
-    const { handleOnClick, text, raised, outlined } = this.props;
+    const {
+      handleOnClick, text, raised, outlined, usersFetchingState,
+    } = this.props;
+    const fetching = usersFetchingState === 'requested';
+
     const btnCn = cn({
       'mdc-button': true,
       'mdc-button--raised': raised,
@@ -11,12 +22,13 @@ class Button extends React.Component {
     });
 
     return (
-      <button onClick={handleOnClick} className={btnCn}>
+      <button onClick={handleOnClick} className={btnCn} disabled={fetching}>
         <div className="mdc-button__ripple"></div>
-        <span className="mdc-button__label">{text}</span>
+        <div className="mdc-button__label">{text}</div>
+        {fetching && <Spinner />}
       </button>
     );
   }
 };
 
-export default Button;
+export default connect(mapStateToProps)(Button);

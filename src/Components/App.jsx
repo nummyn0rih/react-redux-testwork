@@ -6,14 +6,16 @@ import FilterForm from './FilterForm';
 import Table from './Table';
 import UserCard from './UserCard';
 import * as actions from '../actions';
+import routes from '../routes';
 import '../App.css';
 
 const mapStateToProps = (state) => {
   const {
     uiState: { addUserBtn, newUserForm },
     users: { activeUserCard },
+    usersFetchingState,  
   } = state;
-  return { addUserBtn, newUserForm, activeUserCard };
+  return { addUserBtn, newUserForm, activeUserCard, usersFetchingState };
 };
 
 const actionCreators = {
@@ -23,9 +25,9 @@ const actionCreators = {
 };
 
 class App extends React.Component {
-  handleFetchUsers = () => {
+  handleFetchUsers = (url) => () => {
     const { fetchUsers } = this.props;
-    fetchUsers();
+    fetchUsers(url);
   }
 
   handleShowNewUserForm = () => {
@@ -39,15 +41,16 @@ class App extends React.Component {
   }
   
   render() {
-    const { addUserBtn, newUserForm, activeUserCard } = this.props;
+    const { addUserBtn, newUserForm, activeUserCard, usersFetchingState } = this.props;
 
     return (
       <Fragment>
-        <div className="wrapper">
-          <Button handleOnClick={this.handleFetchUsers} text="Fetch data (little)" raised={true} />
-          <Button text="Fetch data (much)" raised={true} />
+        <div className="wrapper__btn">
+          <Button handleOnClick={this.handleFetchUsers(routes.dataSmall)} text="Fetch data (small)" raised={true} />
+          <Button handleOnClick={this.handleFetchUsers(routes.dataLarge)} text="Fetch data (large)" raised={true} />
           <Button handleOnClick={this.handleClear} text="Clear" raised={true} />
           {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
+          {usersFetchingState === 'failed' && <span className="error">Please, reload page!</span>}
         </div>
         {newUserForm === 'show' && <NewUserForm />}
         <FilterForm />

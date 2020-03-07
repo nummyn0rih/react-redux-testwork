@@ -7,11 +7,11 @@ import * as actions from '../actions';
 const mapStateToProps = (state) => {
   const {
     users: { byId },
-    pagination: { allIds, pageLimit, currentPage },
+    usersMapping: { modifiedIds, pageLimit, currentPage },
     uiState: { orderBy, activeOrder },
   } = state;
-  const firstRecordToShow = (currentPage * pageLimit - 10);
-  const recordsToShow = allIds.slice(firstRecordToShow, firstRecordToShow + pageLimit);
+  const firstRecordToShow = (currentPage * pageLimit - pageLimit);
+  const recordsToShow = modifiedIds.slice(firstRecordToShow, firstRecordToShow + pageLimit);
   const users = recordsToShow.map((id) => {
     const user = byId[id];
     return user;
@@ -51,6 +51,7 @@ class Table extends React.Component {
 
   render() {
     const { users } = this.props;
+    // console.log(this.props.byId)
 
     return (
       <div className="mdc-data-table">

@@ -5,11 +5,11 @@ const usersFetchingState = handleActions({
   [actions.fetchUsersRequest]() {
     return 'requested';
   },
-  [actions.fetchUsersFailure]() {
-    return 'failed';
-  },
   [actions.fetchUsersSuccess]() {
     return 'finished';
+  },
+  [actions.fetchUsersFailure]() {
+    return 'failed';
   },
 }, 'none');
 

@@ -10,10 +10,9 @@ export const fetchUsersRequest = createAction('USERS_FETCH_REQUEST');
 export const fetchUsersSuccess = createAction('USERS_FETCH_SUCCESS');
 export const fetchUsersFailure = createAction('USERS_FETCH_FAILURE');
 
-export const fetchUsers = () => async (dispatch) => {
+export const fetchUsers = (url) => async (dispatch) => {
   dispatch(fetchUsersRequest());
   try {
-    const url = 'http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}';
     const response = await axios.get(url);
     dispatch(fetchUsersSuccess(response.data)); 
   } catch (e) {
@@ -30,5 +29,5 @@ export const hideAddUserBtn = createAction('USER_ADD_BUTTON_HIDE');
 
 export const showUserCard = createAction('USER_CARD_SHOW');
 
-export const initPagination = createAction('PAGINATION_INITIAL');
 export const changePage = createAction('PAGE_CHANGE');
+export const changePageLimit = createAction('PAGE_LIMIT_CHANGE');

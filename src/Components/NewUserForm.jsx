@@ -5,7 +5,7 @@ import Button from './Button';
 import * as actions from '../actions';
 
 const mapStateToProps = (state) => {
-  const { users: { allIds }, uiState: { newUserForm } } = state;
+  const { usersMapping: { allIds }, uiState: { newUserForm } } = state;
   const fields = [
     'id',
     'firstName',
@@ -28,13 +28,12 @@ const actionCreators = {
 class NewUserForm extends React.Component {
   submit = (values) => {
     const { allIds, addUser, reset } = this.props;
-    
-    if (allIds.includes(values.id)) {
-      throw new SubmissionError ({
-        id: '',
-      });
+    const user = { ...values, id: Number.parseInt(values.id, 10)};
+
+    if (allIds.includes(user.id)) {
+      throw new SubmissionError ({ _error: '*ID already exists' });
     } else {
-      addUser({ user: { ...values } });
+      addUser({ user });
     }
     reset();
   }
@@ -80,21 +79,22 @@ class NewUserForm extends React.Component {
       </div>
     ));
   }
-
+  
   render() {
-    const { newUserForm, handleSubmit } = this.props;
-
+    const { newUserForm, handleSubmit, error, invalid, valid } = this.props;
+    
     if (newUserForm === 'hide') {
       return null;
     };
-
+    
     return (
       <form onSubmit={handleSubmit(this.submit)} className="mdc-form-field">
         {this.renderFields()}
         <div className="new-user-form-btn__wrapper">
-          <Button handleOnClick={this.handleHideNewUserForm} text="X" />
-          <Button text="Add" raised={true} />
+          <Button handleOnClick={this.handleHideNewUserForm} text="close" outlined={true} />
+          <Button text="Add" raised={true} type="submit" disabled={invalid} />
         </div>
+        {error && <span className="error">{error}</span>}
       </form>
     );
   }

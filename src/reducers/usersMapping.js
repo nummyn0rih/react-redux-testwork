@@ -1,18 +1,31 @@
 import { handleActions } from "redux-actions";
+import uniq from 'lodash.uniq';
+import clonedeep from 'lodash.clonedeep';
 import * as actions from '../actions';
 
-const pagination = handleActions({
+const usersMapping = handleActions({
   [actions.addUser](state, { payload: { user } }) {
     const { allIds, pageLimit } = state;
-    const totalPages = Math.ceil(allIds.length / pageLimit);
-    return { ...state, allIds: [user.id, ...allIds], totalPages };
+    const newAllIds = [user.id, ...allIds];
+    const totalPages = Math.ceil(newAllIds.length / pageLimit);
+    return {
+      ...state,
+      allIds: newAllIds,
+      modifiedIds: newAllIds,
+      totalPages,
+    };
   },
   [actions.fetchUsersSuccess](state, { payload }) {
     const { allIds, pageLimit } = state;
-    const ids = payload.map((user) => user.id);
-    const newAllIds = [...allIds, ...ids];
+    const ids = uniq(payload.map((user) => user.id));
+    const newAllIds = [...ids, ...allIds];
     const totalPages = Math.ceil(newAllIds.length / pageLimit);
-    return { ...state, allIds: newAllIds, totalPages};
+    return {
+      ...state,
+      allIds: newAllIds,
+      modifiedIds: newAllIds,
+      totalPages,
+    };
   },
   [actions.sortUsers](state, { payload: { type, order, byId } }) {
   const { allIds } = state;
@@ -23,7 +36,11 @@ const pagination = handleActions({
         if (byId[a][type] < byId[b][type]) return -1;
         return 0;
       });
-      return { ...state, allIds: sortedIds };
+      return {
+        ...state,
+        allIds: sortedIds,
+        modifiedIds: sortedIds,
+      };
     }
     case 'desc': {
       const sortedIds = [...allIds].sort((a, b) => {
@@ -31,7 +48,11 @@ const pagination = handleActions({
         if (byId[a][type] > byId[b][type]) return -1;
         return 0;
       });
-      return { ...state, allIds: sortedIds };
+      return {
+        ...state,
+        allIds: sortedIds,
+        modifiedIds: sortedIds,
+      };
     }
     default:
       throw new Error(`Unknown order state: '${order}'!`);
@@ -39,29 +60,45 @@ const pagination = handleActions({
   },
   [actions.filterUsers](state, { payload: { filter, byId } }) {
     const { allIds, pageLimit } = state;
+
+    if (!filter) {
+      const totalPages = Math.ceil(allIds.length / pageLimit);
+      return { ...state, modifiedIds: allIds, totalPages };
+    };
+
+    const users = clonedeep(byId);
+    for (const user in users) {
+      delete users[user].address;
+      delete users[user].description;
+    }
     const filtredUsers = allIds.filter((id) => {
-      const values = Object.values(byId[id]).map((i) => i.toString());
+      const values = Object.values(users[id]).map((i) => i.toString().toLowerCase());
       for (const value of values) {
-        if (value.includes(filter)) {
+        if (value.includes(filter.toLowerCase())) {
           return true;
         }
       }
       return false;
     });
     const totalPages = Math.ceil(filtredUsers.length / pageLimit);
-    return { ...state, allIds: filtredUsers, totalPages };
+    return { ...state, modifiedIds: filtredUsers, totalPages };
   },
   [actions.deleteUsers]() {
-    return { allIds: [], pageLimit: 10, totalPages: 1, currentPage: 1, };
+    return { allIds: [], modifiedIds: [], pageLimit: 10, totalPages: 1, currentPage: 1 };
   },
   [actions.changePage](state, { payload: { page } }) {
     return { ...state, currentPage: page };
   },
+  [actions.changePageLimit](state, { payload }) {
+    console.log(payload)
+    return state;
+  },
 }, {
   allIds: [],
+  modifiedIds: [],
   pageLimit: 10,
   totalPages: 1,
   currentPage: 1,
 });
 
-export default pagination;
+export default usersMapping;
