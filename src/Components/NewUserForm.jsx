@@ -25,6 +25,26 @@ const actionCreators = {
   hideNewUserForm: actions.hideNewUserForm,
 };
 
+const validate = values => {
+  const errors = {}
+  if (!values.id) {
+    errors.id = 'Required';
+  }
+  if (!values.firstName) {
+    errors.firstName = 'Required';
+  }
+  if (!values.lastName) {
+    errors.lastName = 'Required';
+  }
+  if (!values.email) {
+    errors.email = 'Required';
+  }
+  if (!values.phone) {
+    errors.phone = 'Required';
+  }
+  return errors;
+};
+
 class NewUserForm extends React.Component {
   submit = (values) => {
     const { allIds, addUser, reset } = this.props;
@@ -79,9 +99,9 @@ class NewUserForm extends React.Component {
       </div>
     ));
   }
-  
+
   render() {
-    const { newUserForm, handleSubmit, error, invalid, valid } = this.props;
+    const { newUserForm, handleSubmit, error, submitting, pristine, invalid } = this.props;
     
     if (newUserForm === 'hide') {
       return null;
@@ -92,7 +112,7 @@ class NewUserForm extends React.Component {
         {this.renderFields()}
         <div className="new-user-form-btn__wrapper">
           <Button handleOnClick={this.handleHideNewUserForm} text="close" outlined={true} />
-          <Button text="Add" raised={true} type="submit" disabled={invalid} />
+          <Button text="Add" raised={true} type="submit" disabled={submitting || pristine || invalid} />
         </div>
         {error && <span className="error">{error}</span>}
       </form>
@@ -103,4 +123,5 @@ class NewUserForm extends React.Component {
 const ConnectedNewUserForm = connect(mapStateToProps, actionCreators)(NewUserForm);
 export default reduxForm({
   form: 'newUser',
+  validate,
 })(ConnectedNewUserForm);
