@@ -103,8 +103,9 @@ const usersMapping = handleActions({
   },
   [actions.changePageLimit](state, { payload: { pageLimitValue } }) {
     const { allIds } = state;
+    const pageLimit = Number.parseInt(pageLimitValue, 10);
     const totalPages = Math.ceil(allIds.length / pageLimitValue);
-    return { ...state, pageLimit: pageLimitValue, totalPages };
+    return { ...state, pageLimit, totalPages };
   },
 }, {
   allIds: [],
