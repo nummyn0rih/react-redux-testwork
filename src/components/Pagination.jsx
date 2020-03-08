@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
 import Button from './Button';
+import Select from './SelectingForm';
 import range from 'lodash.range';
 import * as actions from '../actions';
 
@@ -21,7 +21,6 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
   changePage: actions.changePage,
-  changePageLimit: actions.changePageLimit,
 };
 
 class Pagination extends React.Component {
@@ -30,15 +29,8 @@ class Pagination extends React.Component {
     changePage({ page });
   }
 
-  handleChangePageLimit = (value) => {
-    const { changePageLimit } = this.props;
-    console.log('value ->', value)
-    changePageLimit({ ...value })
-  }
-
   renderPages = () => {
-    const { startBlock, midBlock, endBlock, handleSubmit } = this.props;
-
+    const { startBlock, midBlock, endBlock } = this.props;
     const renderRange = (range) => range.map((page) => (
       <Button
         handleOnClick={this.nahdleChangePage(page)}
@@ -49,16 +41,7 @@ class Pagination extends React.Component {
 
     return (
       <div className="pagination">
-        <form className="pagination__select">
-          <label>Records per page</label>
-          <div className="pagination__option">
-            <Field onChange={handleSubmit(this.handleChangePageLimit)} name="pageLimit" component="select">
-              <option value="10">10</option>
-              <option value="25">25</option>
-              <option value="50">50</option>
-            </Field>
-          </div>
-        </form>
+        <Select />
         {renderRange(startBlock)}
         {midBlock && <span className="pagination__spread">. . .</span>}
         {midBlock && renderRange(midBlock)}
@@ -73,8 +56,4 @@ class Pagination extends React.Component {
   }
 };
 
-const ConnectedPagination = connect(mapStateToProps, actionCreators)(Pagination);
-export default reduxForm({
-  form: 'selectingFormValues',
-  initialValues: { pageLimit: "10" },
-})(ConnectedPagination);
+export default connect(mapStateToProps, actionCreators)(Pagination);
