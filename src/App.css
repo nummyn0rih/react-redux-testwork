@@ -42,7 +42,7 @@
 .mdc-floating-label {
   position: relative;
   text-transform: uppercase;
-  font-size: .8rem;
+  font-size: 0.8rem;
   text-align: center;
 }
 
@@ -72,7 +72,7 @@
   color: red;
 }
 
-.mdc-card{
+.mdc-card {
   margin-top: 15px;
   padding: 20px;
 }
@@ -89,7 +89,7 @@
 
 .pagination__spread {
   font-size: 1.7rem;
-  color: #6B00EE;
+  color: #6b00ee;
 }
 
 .pagination__select {
@@ -146,5 +146,3 @@
     transform: rotate(360deg);
   }
 }
-
-

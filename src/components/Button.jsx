@@ -3,31 +3,36 @@ import { connect } from 'react-redux';
 import Spinner from './Spinner';
 import cn from 'classnames';
 
-const mapStateToProps = (state) => {
-  const { usersFetchingState } = state;
-  return { usersFetchingState };
+const mapStateToProps = state => {
+	const { usersFetchingState } = state;
+	return { usersFetchingState };
 };
 
 class Button extends React.Component {
-  render() {
-    const {
-      handleOnClick, text, raised, outlined, disabled, fetching,
-    } = this.props;
+	render() {
+		const {
+			handleOnClick,
+			text,
+			raised,
+			outlined,
+			disabled,
+			fetching,
+		} = this.props;
 
-    const btnCn = cn({
-      'mdc-button': true,
-      'mdc-button--raised': raised,
-      'mdc-button--outlined': outlined,
-    });
+		const btnCn = cn({
+			'mdc-button': true,
+			'mdc-button--raised': raised,
+			'mdc-button--outlined': outlined,
+		});
 
-    return (
-      <button onClick={handleOnClick} className={btnCn} disabled={disabled}>
-        <div className="mdc-button__ripple"></div>
-        <div className="mdc-button__label">{text}</div>
-        {fetching && <Spinner />}
-      </button>
-    );
-  }
-};
+		return (
+			<button onClick={handleOnClick} className={btnCn} disabled={disabled}>
+				<div className="mdc-button__ripple"></div>
+				<div className="mdc-button__label">{text}</div>
+				{fetching && <Spinner />}
+			</button>
+		);
+	}
+}
 
 export default connect(mapStateToProps)(Button);
