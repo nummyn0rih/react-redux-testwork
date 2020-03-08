@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 class Button extends React.Component {
   render() {
     const {
-      handleOnClick, text, raised, outlined, disabled,
+      handleOnClick, text, raised, outlined, disabled, fetching,
     } = this.props;
 
     const btnCn = cn({
@@ -24,7 +24,7 @@ class Button extends React.Component {
       <button onClick={handleOnClick} className={btnCn} disabled={disabled}>
         <div className="mdc-button__ripple"></div>
         <div className="mdc-button__label">{text}</div>
-        {disabled && <Spinner />}
+        {fetching && <Spinner />}
       </button>
     );
   }

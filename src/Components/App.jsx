@@ -63,12 +63,14 @@ class App extends React.Component {
             text="Fetch data (small)"
             raised={true}
             disabled={fetchingSmallData}
+            fetching={fetchingSmallData}
           />
           <Button
             handleOnClick={this.handleFetchUsers(routes.dataLarge, 'large')}
             text="Fetch data (large)"
             raised={true}
             disabled={fetchingLargeData}
+            fetching={fetchingLargeData}
           />
           <Button handleOnClick={this.handleClear} text="Clear" raised={true} />
           {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
