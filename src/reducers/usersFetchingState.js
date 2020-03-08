@@ -2,15 +2,27 @@ import { handleActions } from "redux-actions";
 import * as actions from '../actions';
 
 const usersFetchingState = handleActions({
-  [actions.fetchUsersRequest]() {
-    return 'requested';
+  [actions.fetchUsersSmallDataSetRequest](state) {
+    return { ...state, smallDataSet: 'requested' };
   },
-  [actions.fetchUsersSuccess]() {
-    return 'finished';
+  [actions.fetchUsersLargeDataSetRequest](state) {
+    return { ...state, largeDataSet: 'requested' };
   },
-  [actions.fetchUsersFailure]() {
-    return 'failed';
+  [actions.fetchUsersSmallDataSetSuccess](state) {
+    return { ...state, smallDataSet: 'finished' };
   },
-}, 'none');
+  [actions.fetchUsersLargeDataSetSuccess](state) {
+    return { ...state, largeDataSet: 'finished' };
+  },
+  [actions.fetchUsersSmallDataSetFailure](state) {
+    return { ...state, smallDataSet: 'failed' };
+  },
+  [actions.fetchUsersLargeDataSetFailure](state) {
+    return { ...state, largeDataSet: 'failed' };
+  },
+}, {
+  smallDataSet: 'none',
+  largeDataSet: 'none',
+});
 
 export default usersFetchingState;

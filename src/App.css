@@ -96,6 +96,16 @@
   display: flex;
 }
 
+.pagination__option {
+  margin-left: 10px;
+}
+
+.pagination__option select {
+  height: 25px;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
 .lds-ring {
   display: inline-block;
   position: relative;

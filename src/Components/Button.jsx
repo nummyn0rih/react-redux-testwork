@@ -11,9 +11,8 @@ const mapStateToProps = (state) => {
 class Button extends React.Component {
   render() {
     const {
-      handleOnClick, text, raised, outlined, usersFetchingState, disabled,
+      handleOnClick, text, raised, outlined, disabled,
     } = this.props;
-    const fetching = usersFetchingState === 'requested';
 
     const btnCn = cn({
       'mdc-button': true,
@@ -22,10 +21,10 @@ class Button extends React.Component {
     });
 
     return (
-      <button onClick={handleOnClick} className={btnCn} disabled={fetching || disabled}>
+      <button onClick={handleOnClick} className={btnCn} disabled={disabled}>
         <div className="mdc-button__ripple"></div>
         <div className="mdc-button__label">{text}</div>
-        {fetching && <Spinner />}
+        {disabled && <Spinner />}
       </button>
     );
   }

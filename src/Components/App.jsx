@@ -19,15 +19,25 @@ const mapStateToProps = (state) => {
 };
 
 const actionCreators = {
-  fetchUsers: actions.fetchUsers,
+  fetchUsersSmallDataSet: actions.fetchUsersSmallDataSet,
+  fetchUsersLargeDataSet: actions.fetchUsersLargeDataSet,
   showNewUserForm: actions.showNewUserForm,
   deleteUsers: actions.deleteUsers,
 };
 
 class App extends React.Component {
-  handleFetchUsers = (url) => () => {
-    const { fetchUsers } = this.props;
-    fetchUsers(url);
+  handleFetchUsers = (url, flag) => () => {
+    const { fetchUsersSmallDataSet, fetchUsersLargeDataSet } = this.props;
+    switch (flag) {
+      case 'small':
+        fetchUsersSmallDataSet(url);
+        break;
+      case 'large':
+        fetchUsersLargeDataSet(url);
+        break;
+      default:
+        throw new Error(`Unknown flag: '${flag}'!`);
+    }
   }
 
   handleShowNewUserForm = () => {
@@ -42,12 +52,24 @@ class App extends React.Component {
   
   render() {
     const { addUserBtn, newUserForm, activeUserCard, usersFetchingState } = this.props;
+    const fetchingSmallData = usersFetchingState.smallDataSet === 'requested';
+    const fetchingLargeData = usersFetchingState.largeDataSet === 'requested';
 
     return (
       <Fragment>
         <div className="wrapper__btn">
-          <Button handleOnClick={this.handleFetchUsers(routes.dataSmall)} text="Fetch data (small)" raised={true} />
-          <Button handleOnClick={this.handleFetchUsers(routes.dataLarge)} text="Fetch data (large)" raised={true} />
+          <Button
+            handleOnClick={this.handleFetchUsers(routes.dataSmall, 'small')}
+            text="Fetch data (small)"
+            raised={true}
+            disabled={fetchingSmallData}
+          />
+          <Button
+            handleOnClick={this.handleFetchUsers(routes.dataLarge, 'large')}
+            text="Fetch data (large)"
+            raised={true}
+            disabled={fetchingLargeData}
+          />
           <Button handleOnClick={this.handleClear} text="Clear" raised={true} />
           {addUserBtn === 'show' && <Button handleOnClick={this.handleShowNewUserForm} text="Add user" raised={true} />}
           {usersFetchingState === 'failed' && <span className="error">Please, reload page!</span>}

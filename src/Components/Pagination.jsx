@@ -51,8 +51,8 @@ class Pagination extends React.Component {
       <div className="pagination">
         <form className="pagination__select">
           <label>Records per page</label>
-          <div>
-            <Field  onChange={handleSubmit(this.handleChangePageLimit)} name="pageLimit" component="select">
+          <div className="pagination__option">
+            <Field onChange={handleSubmit(this.handleChangePageLimit)} name="pageLimit" component="select">
               <option value="10">10</option>
               <option value="25">25</option>
               <option value="50">50</option>

@@ -15,7 +15,19 @@ const usersMapping = handleActions({
       totalPages,
     };
   },
-  [actions.fetchUsersSuccess](state, { payload }) {
+  [actions.fetchUsersSmallDataSetSuccess](state, { payload }) {
+    const { allIds, pageLimit } = state;
+    const ids = uniq(payload.map((user) => user.id));
+    const newAllIds = [...ids, ...allIds];
+    const totalPages = Math.ceil(newAllIds.length / pageLimit);
+    return {
+      ...state,
+      allIds: newAllIds,
+      modifiedIds: newAllIds,
+      totalPages,
+    };
+  },
+  [actions.fetchUsersLargeDataSetSuccess](state, { payload }) {
     const { allIds, pageLimit } = state;
     const ids = uniq(payload.map((user) => user.id));
     const newAllIds = [...ids, ...allIds];

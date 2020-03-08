@@ -6,7 +6,12 @@ const users = handleActions({
     const { byId } = state;
     return { byId: { ...byId, [user.id]: user } };
   },
-  [actions.fetchUsersSuccess](state, { payload }) {
+  [actions.fetchUsersSmallDataSetSuccess](state, { payload }) {
+    const { byId } = state;
+    const users = payload.reduce((acc, user) => ({ ...acc, [user.id]: user }), {});
+    return { byId: { ...byId, ...users }  };
+  },
+  [actions.fetchUsersLargeDataSetSuccess](state, { payload }) {
     const { byId } = state;
     const users = payload.reduce((acc, user) => ({ ...acc, [user.id]: user }), {});
     return { byId: { ...byId, ...users }  };

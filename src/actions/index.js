@@ -6,17 +6,32 @@ export const deleteUsers = createAction('USERS_DELETE');
 export const sortUsers = createAction('USERS_SORT');
 export const filterUsers = createAction('USERS_FILTER');
 
-export const fetchUsersRequest = createAction('USERS_FETCH_REQUEST');
-export const fetchUsersSuccess = createAction('USERS_FETCH_SUCCESS');
-export const fetchUsersFailure = createAction('USERS_FETCH_FAILURE');
+export const fetchUsersSmallDataSetRequest = createAction('USERS_FETCH_SMALL_DATA_REQUEST');
+export const fetchUsersSmallDataSetSuccess = createAction('USERS_FETCH_SMALL_DATA_SUCCESS');
+export const fetchUsersSmallDataSetFailure = createAction('USERS_FETCH_SMALL_DATA_FAILURE');
+export const fetchUsersLargeDataSetRequest = createAction('USERS_FETCH_LARGE_DATA_REQUEST');
+export const fetchUsersLargeDataSetSuccess = createAction('USERS_FETCH_LARGE_DATA_SUCCESS');
+export const fetchUsersLargeDataSetFailure = createAction('USERS_FETCH_LARGE_DATA_FAILURE');
 
-export const fetchUsers = (url) => async (dispatch) => {
-  dispatch(fetchUsersRequest());
+export const fetchUsersSmallDataSet = (url) => async (dispatch) => {
+  dispatch(fetchUsersSmallDataSetRequest());
   try {
     const response = await axios.get(url);
-    dispatch(fetchUsersSuccess(response.data)); 
+    dispatch(fetchUsersSmallDataSetSuccess(response.data)); 
   } catch (e) {
-    dispatch(fetchUsersFailure());
+    dispatch(fetchUsersSmallDataSetFailure());
+    console.log(e);
+    throw e;
+  }
+};
+
+export const fetchUsersLargeDataSet = (url) => async (dispatch) => {
+  dispatch(fetchUsersLargeDataSetRequest());
+  try {
+    const response = await axios.get(url);
+    dispatch(fetchUsersLargeDataSetSuccess(response.data)); 
+  } catch (e) {
+    dispatch(fetchUsersLargeDataSetFailure());
     console.log(e);
     throw e;
   }
