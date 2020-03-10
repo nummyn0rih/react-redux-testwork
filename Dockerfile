@@ -1,12 +1,7 @@
-FROM mhart/alpine-node:11 AS builder
+FROM node:12.2.0-alpine
 WORKDIR /app
-COPY . .
+ENV PATH /app/node_modules/.bin:$PATH
+COPY package.json /app/package.json
+RUN npm install --silent
 RUN npm install react-scripts -g --silent
-RUN yarn install
-RUN yarn run build
-
-FROM mhart/alpine-node
-RUN yarn global add serve
-WORKDIR /app
-COPY --from=builder /app/build .
-CMD ["serve", "-p", "80", "-s", "."]doc
+CMD ["npm", "start"]
