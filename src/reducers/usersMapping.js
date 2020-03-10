@@ -71,10 +71,10 @@ const usersMapping = handleActions(
 					throw new Error(`Unknown order state: '${order}'!`);
 			}
 		},
-		[actions.filterUsers](state, { payload: { filter, byId } }) {
+		[actions.filterUsers](state, { payload: { filteringValue, byId } }) {
 			const { allIds, pageLimit } = state;
 
-			if (!filter) {
+			if (!filteringValue) {
 				const totalPages = Math.ceil(allIds.length / pageLimit);
 				return { ...state, modifiedIds: allIds, totalPages };
 			}
@@ -89,7 +89,7 @@ const usersMapping = handleActions(
 					i.toString().toLowerCase()
 				);
 				for (const value of values) {
-					if (value.includes(filter.toLowerCase())) {
+					if (value.includes(filteringValue.toLowerCase())) {
 						return true;
 					}
 				}

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import Button from './Button';
-import * as actions from '../actions';
+import { filterUsers } from '../actions';
 
 const mapStateToProps = state => {
 	const {
@@ -12,13 +12,13 @@ const mapStateToProps = state => {
 };
 
 const actionCreators = {
-	filterUsers: actions.filterUsers,
+	filterUsers,
 };
 
 class FilterForm extends React.Component {
-	handleFilterUsers = ({ filter }) => {
+	handleFilterUsers = ({ filteringValue }) => {
 		const { filterUsers, byId, reset } = this.props;
-		filterUsers({ filter, byId });
+		filterUsers({ filteringValue, byId });
 		reset();
 	};
 
@@ -33,7 +33,7 @@ class FilterForm extends React.Component {
 				<div className="mdc-text-field mdc-text-field--outlined">
 					<Field
 						className="mdc-text-field__input"
-						name="filter"
+						name="filteringValue"
 						component="input"
 						type="text"
 					/>
@@ -53,5 +53,5 @@ const ConnectedFilterForm = connect(
 	actionCreators
 )(FilterForm);
 export default reduxForm({
-	form: 'filter',
+	form: 'filteringFormValues',
 })(ConnectedFilterForm);

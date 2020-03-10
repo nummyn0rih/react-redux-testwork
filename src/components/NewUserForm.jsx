@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import Button from './Button';
-import * as actions from '../actions';
+import { addUser, hideNewUserForm } from '../actions';
 
 const mapStateToProps = state => {
 	const {
@@ -18,8 +18,8 @@ const mapStateToProps = state => {
 };
 
 const actionCreators = {
-	addUser: actions.addUser,
-	hideNewUserForm: actions.hideNewUserForm,
+	addUser,
+	hideNewUserForm,
 };
 
 const validate = values => {
@@ -140,6 +140,6 @@ const ConnectedNewUserForm = connect(
 	actionCreators
 )(NewUserForm);
 export default reduxForm({
-	form: 'newUser',
+	form: 'newUserFormValues',
 	validate,
 })(ConnectedNewUserForm);

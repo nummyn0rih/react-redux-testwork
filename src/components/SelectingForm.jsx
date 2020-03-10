@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
-import * as actions from '../actions';
+import { changePageLimit } from '../actions';
 
 const actionCreators = {
-	changePageLimit: actions.changePageLimit,
+	changePageLimit,
 };
 
 class SelectingForm extends React.Component {

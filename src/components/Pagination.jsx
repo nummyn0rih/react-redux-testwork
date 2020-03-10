@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Button from './Button';
 import Select from './SelectingForm';
 import range from 'lodash.range';
-import * as actions from '../actions';
+import { changePage } from '../actions';
 
 const mapStateToProps = state => {
 	const {
@@ -27,7 +27,7 @@ const mapStateToProps = state => {
 };
 
 const actionCreators = {
-	changePage: actions.changePage,
+	changePage,
 };
 
 class Pagination extends React.Component {

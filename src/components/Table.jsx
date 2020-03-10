@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Row from './Row';
 import Pagination from './Pagination';
-import * as actions from '../actions';
+import { showUserCard, sortUsers } from '../actions';
 
 const mapStateToProps = state => {
 	const {
@@ -24,8 +24,8 @@ const mapStateToProps = state => {
 };
 
 const actionCreators = {
-	showUserCard: actions.showUserCard,
-	sortUsers: actions.sortUsers,
+	showUserCard,
+	sortUsers,
 };
 
 class Table extends React.Component {
