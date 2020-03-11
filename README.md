@@ -1,3 +1,10 @@
+### Docker-контейнер
+
+```
+docker pull nummyn0rih/react-redux-datatable:v1
+docker run -it -p 80:80 --rm nummyn0rih/react-redux-datatable:v1
+```
+
 # Тестовое задание на позицию frontend разработчика
 
 Необходимо разработать React-приложение для отображения таблицы с данными.
